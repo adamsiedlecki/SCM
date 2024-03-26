@@ -16,12 +16,24 @@ pipeline {
         }
         stage('Run Surefire Tests') {
             steps {
-                sh "mvn surefire:test"
+                script {
+                    def surefireResult = sh(script: 'mvn surefire:test', returnStatus: true)
+                    if (surefireResult != 0) {
+                        currentBuild.result = 'FAILED'
+                        error "Surefire tests failed"
+                    }
+                }
             }
         }
         stage('Run Failsafe Tests') {
             steps {
-                sh "mvn failsafe:integration-test"
+                script {
+                    def failsafeResult = sh(script: 'mvn failsafe:integration-test', returnStatus: true)
+                    if (failsafeResult != 0) {
+                        currentBuild.result = 'FAILED'
+                        error "Failsafe tests failed"
+                    }
+                }
             }
         }
     }
