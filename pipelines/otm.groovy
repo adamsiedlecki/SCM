@@ -4,7 +4,7 @@ node(){
         checkout changelog: false, poll: false, scm: scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubToken', url: 'https://github.com/adamsiedlecki/OTM.git']])
     }
     stage('Build') {
-        sh "mvn clean install"
+        sh "mvn clean install -DskipTests"
     }
     stage('Run Surefire Tests') {
         sh "mvn surefire:test"
