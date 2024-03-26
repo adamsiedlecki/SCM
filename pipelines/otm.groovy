@@ -31,6 +31,7 @@ pipeline {
             steps {
                 echo "STARTING FAILSAE"
                 script {
+                    sh "whoami"
                     def failsafeResult = sh(script: 'mvn failsafe:integration-test failsafe:verify', returnStatus: true)
                     echo "FAILSAFE RETURNED CODE: ${failsafeResult}"
                     if (failsafeResult != 0) {
